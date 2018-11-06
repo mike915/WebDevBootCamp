@@ -17,7 +17,7 @@ let campgroundSchema = new mongoose.Schema({
 
 let Campground = mongoose.model('Campground', campgroundSchema);
 
-Campground.create()
+// Campground.create()
 
 let campgrounds = [
     { name: 'Salmon Creek', image: 'https://pixabay.com/get/e837b1072af4003ed1584d05fb1d4e97e07ee3d21cac104491f1c070a6eebdb1_340.jpg'},
