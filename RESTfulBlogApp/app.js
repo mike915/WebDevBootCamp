@@ -24,6 +24,12 @@ let testBlog = {
     body: 'Hello, this is a blog post'
 };
 
+let testBlog2 = {
+    title: 'Test Blog',
+    image: 'https://farm7.staticflickr.com/6188/6208181463_40c4fd7049.jpg',
+    body: 'Hello, this is a blog post'
+};
+
 // Blog.create(testBlog);
 
 // RESTFUL ROUTES
