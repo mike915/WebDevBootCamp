@@ -1,32 +1,17 @@
 let express = require("express");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
+let Campground = require("./models/campground");
+let Comment = require("./models/comment");
+let seedDB = require("./seeds");
 
 let app = express();
-mongoose.connect('mongodb://localhost:27017/yelp_camp', { useNewUrlParser: true }); 
+mongoose.connect('mongodb://localhost:27017/yelp_camp_v3', { useNewUrlParser: true }); 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 
-// Schema Setup
-let campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-let Campground = mongoose.model('Campground', campgroundSchema);
-
-// Campground.create()
-
-let campgrounds = [
-    { name: 'Salmon Creek', image: 'https://pixabay.com/get/e837b1072af4003ed1584d05fb1d4e97e07ee3d21cac104491f1c070a6eebdb1_340.jpg'},
-    { name: 'Granite Hill', image: 'https://pixabay.com/get/e03db50f2af41c22d2524518b7444795ea76e5d004b0144594f1c878a4e5bc_340.jpg'},
-    { name: 'Mountain Coats Rest', image: 'https://pixabay.com/get/e83db7082af3043ed1584d05fb1d4e97e07ee3d21cac104491f1c070a6eebdb1_340.jpg'},
-    { name: 'Salmon Creek', image: 'https://pixabay.com/get/e837b1072af4003ed1584d05fb1d4e97e07ee3d21cac104491f1c070a6eebdb1_340.jpg'},
-    { name: 'Granite Hill', image: 'https://pixabay.com/get/e03db50f2af41c22d2524518b7444795ea76e5d004b0144594f1c878a4e5bc_340.jpg'},
-    { name: 'Mountain Coats Rest', image: 'https://pixabay.com/get/e83db7082af3043ed1584d05fb1d4e97e07ee3d21cac104491f1c070a6eebdb1_340.jpg'}
-];
+seedDB();
     
 app.get('/', (req, res) => {
     res.render('landing');
@@ -68,10 +53,11 @@ app.get('/campgrounds/new', (req, res) => {
 
 app.get('/campgrounds/:id', (req, res) => {
     // console.log(req.params);
-    Campground.findById(req.params.id, function(err, foundCampground) {
+    Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground) {
         if(err) {
             console.log(err);
         } else {
+            console.log(foundCampground);
             res.render('show', {campground: foundCampground});
         }
     });
