@@ -6,8 +6,6 @@ let LocalStrategy = require("passport-local");
 let passportLocalMongoose = require("passport-local-mongoose");
 let User = require("./models/user");
 
-
-
 let app = express();
 mongoose.connect('mongodb://localhost:27017/auth_demo_app', { useNewUrlParser: true }); 
 
@@ -31,6 +29,22 @@ app.get('/', function(req, res) {
 
 app.get('/secret', function(req, res) {
     res.render('secret');
+});
+
+app.get('/register', function(req, res) {
+    res.render('register');
+});
+
+app.post('/register', function(req, res) {
+    User.register(new User({username: req.body.username}), req.body.password, function(err, user) {
+        if(err) {
+            console.log(err);
+            res.render('register');
+        }
+        passport.authenticate('local')(req, res, function() {
+            res.redirect('/secret');
+        });
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, function() {
