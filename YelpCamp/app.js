@@ -1,8 +1,11 @@
 let express = require("express");
 let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
+let passport = require("passport");
+let LocalStrategy = require("passport-local");
 let Campground = require("./models/campground");
 let Comment = require("./models/comment");
+let User = require("./models/user");
 let seedDB = require("./seeds");
 
 let app = express();
