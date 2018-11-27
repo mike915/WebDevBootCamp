@@ -3,6 +3,7 @@ let bodyParser = require("body-parser");
 let mongoose = require("mongoose");
 let passport = require("passport");
 let LocalStrategy = require("passport-local");
+let methodOverride = require("method-override");
 let Campground = require("./models/campground");
 let Comment = require("./models/comment");
 let User = require("./models/user");
@@ -12,12 +13,12 @@ let commentRoutes = require("./routes/comments");
 let campgroundRoutes = require("./routes/campgrounds");
 let indexRoutes = require("./routes/index");
 
-
 let app = express();
 mongoose.connect('mongodb://localhost:27017/yelp_camp_v3', { useNewUrlParser: true }); 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
+app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
 
 // seedDB();
